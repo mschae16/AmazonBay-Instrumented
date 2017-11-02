@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/492955eee2.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster|Raleway:300,400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./css/normalize.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
@@ -10,7 +11,33 @@
 
   </head>
   <body>
-    <p>Hello World</p>
+    <header>
+      <h3>Order History</h3>
+      <h1>AmazonBay</h1>
+      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+    </header>
+    <main>
+      <section class="order-history-container">
+        <h2>Order History</h2>
+        <ul>
+          <!-- Append recent orders here -->
+        </ul>
+      </section>
+      <section class="inventory-container">
+        <ul class="items-list">
+          <!-- Append inventory cards here -->
+        </ul>
+      </section>
+      <section class="shopping-cart-container">
+        <h2>Shopping Cart</h2>
+        <h4>Items</h4>
+        <ul>
+          <!-- Append cart items here -->
+        </ul>
+        <h4>Total:</h4>
+        <button>Purchase</button>
+      </section>
+    </main>
     <script src="./js/jquery-3.2.1.min.js"></script>
     <script src="./js/scripts.js"></script>
   </body>
