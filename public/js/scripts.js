@@ -1,5 +1,3 @@
-const shoppingCartArray = [];
-
 const fetchAll = (path, appendMethod) => {
   fetch(`/api/v1/${path}`)
     .then( response => {
@@ -41,8 +39,67 @@ const appendItem = (itemObject) => {
     );
 }
 
-const loadInventory = () => {
+const calculateTotal = (itemsArray) => {
+  let totalCost = 0;
+  itemsArray.forEach(item => {
+    totalCost += item.price;
+  });
+
+  $('.cart-total').append(`Total: $${totalCost}`);
+}
+
+const appendCartItem = (item) => {
+  $('.saved-items').append(
+    `<li class='saved-item-card'>
+      <div class='saved-item-name-container'>
+        <p class='saved-item-name'>${item.item}</p>
+      </div>
+      <div class='saved-item-price-container'>
+        <p class='saved-item-price'>Price: ${item.price}</p>
+      </div>
+    </li>`
+  );
+}
+
+const fetchFromStorage = () => {
+  const itemsInStorage = JSON.parse(localStorage.getItem('shoppingCart'));
+
+  if(!itemsInStorage.length) {
+    $('.saved-items').append(
+      `<li class='empty-cart-card'>
+          <h3 class='empty-msg'>Your cart is empty. Try adding some items!</h3>
+      </li>`
+    );
+  } else {
+    calculateTotal(itemsInStorage);
+    itemsInStorage.forEach( item => appendCartItem(item));
+  }
+}
+
+const appendOrder = (orderObject) => {
+  const { id, order_total, created_at } = orderObject;
+  const dateOrdered = created_at.slice(0, 10);
+
+  $('.recent-orders-list')
+    .append(
+      `<li class='order-card'>
+        <div class='order-id-container'>
+          <h3 class='order-id'>Order Id: #${id}</h3>
+        </div>
+        <div class='order-date-container'>
+          <p class='order-date'>Date Ordered: ${dateOrdered}</p>
+        </div>
+        <div class='order-total-container'>
+          <p class='order_total'>Total: $${order_total}</p>
+        </div>
+      </li>`
+    );
+}
+
+const loadPage = () => {
   fetchAll('inventory', appendItem);
+  fetchAll('order_history', appendOrder);
+  fetchFromStorage();
 }
 
 const addItemToCart = (e) => {
@@ -69,4 +126,4 @@ $('.nav-cart').on('click', slideLeft);
 $('.nav-orders').on('click', slideRight);
 $('.purchase-btn').on('click', purchaseItems);
 $('.items-list').on('click', '.add-item-btn', addItemToCart);
-$(window).on('load', loadInventory);
+$(window).on('load', loadPage);
