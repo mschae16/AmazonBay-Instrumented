@@ -35,6 +35,7 @@ app.get('/api/v1/inventory', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
+// do I need this endpoint?
 app.get('/api/v1/inventory/:id', (request, response) => {
   const { id } = request.params;
   database('inventory').where({ id }).select()
@@ -67,7 +68,7 @@ app.post('/api/v1/order_history', (request, response) => {
   if (!order.order_total) {
       return response
         .status(422)
-        .send({ error: `Expected format: { order_total: <Decimal> } You're missing a the order_total property.` });
+        .send({ error: 'Expected format: { order_total: <Decimal> } You\'re missing a the order_total property.' });
   }
 
   database('order_history').insert({ order_total: order.order_total }, '*')
