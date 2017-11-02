@@ -68,10 +68,9 @@ app.post('/api/v1/order_history', (request, response) => {
       return response
         .status(422)
         .send({ error: `Expected format: { order_total: <Decimal> } You're missing a the order_total property.` });
-    }
   }
 
-  database('order_history').insert({ order_history: order.order_history }, '*')
+  database('order_history').insert({ order_total: order.order_total }, '*')
     .then(order => response.status(201).json(order))
     .catch(error => response.status(500).json({ error }));
 });
