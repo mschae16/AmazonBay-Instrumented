@@ -45,7 +45,7 @@ const calculateTotal = (itemsArray) => {
     totalCost += item.price;
   });
 
-  $('.cart-total').append(`Total: $${totalCost}`);
+  $('.cart-total').text(`Total: $${totalCost}`);
 }
 
 const appendCartItem = (item) => {
@@ -64,7 +64,7 @@ const appendCartItem = (item) => {
 const fetchFromStorage = () => {
   const itemsInStorage = JSON.parse(localStorage.getItem('shoppingCart'));
 
-  if(!itemsInStorage.length) {
+  if(!itemsInStorage) {
     $('.saved-items').append(
       `<li class='empty-cart-card'>
           <h3 class='empty-msg'>Your cart is empty. Try adding some items!</h3>
@@ -105,13 +105,39 @@ const loadPage = () => {
 const addItemToCart = (e) => {
   const item = $(e.target).closest('.item-card');
   const itemObject = $(item).data();
+
+  const shoppingCartArray = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+
   shoppingCartArray.push(itemObject);
   localStorage.setItem('shoppingCart', JSON.stringify(shoppingCartArray));
+
+  $('.saved-items').children().remove();
+  fetchFromStorage();
+}
+
+const sendOrderToDB = (orderTotal) => {
+  fetch('/api/v1/order_history', {
+    method: 'POST',
+    body: JSON.stringify({ order_total: orderTotal }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(response => response.json())
+  .then(parsedResponse => appendOrder(parsedResponse[0]))
+  .catch(error => console.log({ error }));
 }
 
 const purchaseItems = () => {
+  let totalCost = 0;
   const shoppingCart = JSON.parse(localStorage.getItem('shoppingCart'));
-  console.log(shoppingCart);
+
+  shoppingCart.forEach(item => {
+    totalCost += item.price;
+  });
+
+  sendOrderToDB(totalCost);
+  localStorage.removeItem('shoppingCart');
+  $('.cart-total').text('');
+  $('.saved-items').children().remove();
 }
 
 const slideLeft = () => {
