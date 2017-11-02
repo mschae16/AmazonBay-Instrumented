@@ -9,11 +9,49 @@
 }
 
 body {
-  display: flex;
-  flex-direction: row;
   width: 100%;
   height: 100%;
   background: #f8f8f8;
   color: #666;
   font-family: 'Raleway', sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15vh;
+  padding: 10px;
+  background: navy;
+  color: #f8f8f8;
+}
+
+.title {
+  font-family: 'Lobster', cursive;
+  font-size: 50px;
+}
+
+.nav-orders {
+  font-size: 18px;
+}
+
+.nav-cart {
+  font-size: 25px;
+}
+
+main {
+  display: flex;
+  height: 85vh;
+  background: #ccc;
+}
+
+.order-history-container,
+.shopping-cart-container {
+  display: none;
+}
+
+.inventory-container {
+  height: 100%;
+  width: 70%;
+  margin: auto;
 }
