@@ -20,4 +20,61 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
 
+// ENDPOINTs
+
+app.get('/api/v1/inventory', (request, response) => {
+  database('inventory').select()
+    .then(inventory => {
+      if (!inventory.length) {
+        return response.status(404).json({ error: 'No inventory could be found.' });
+      } else {
+        return inventory;
+      }
+    })
+    .then(inventory => response.status(200).json(inventory))
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.get('/api/v1/inventory/:id', (request, response) => {
+  const { id } = request.params;
+  database('inventory').where({ id }).select()
+    .then(item => {
+      if (!item.length) {
+        return response.status(404).json({ error: 'There is no item with this id.' });
+      } else {
+        return item;
+      }
+    })
+    .then(item => response.status(200).json(item))
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.get('/api/v1/order_history', (request, response) => {
+  database('order_history').select()
+    .then(orders => {
+      if (!orders.length) {
+        return response.status(404).json({ error: 'No orders could be found.' });
+      } else {
+        return orders;
+      }
+    })
+    .then(orders => response.status(200).json(orders))
+    .catch(error => response.status(500).json({ error }));
+});
+
+app.post('/api/v1/order_history', (request, response) => {
+  const order = request.body;
+  if (!order.order_total) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: { order_total: <Decimal> } You're missing a the order_total property.` });
+    }
+  }
+
+  database('order_history').insert({ order_history: order.order_history }, '*')
+    .then(order => response.status(201).json(order))
+    .catch(error => response.status(500).json({ error }));
+});
+
+
 module.exports = app;
