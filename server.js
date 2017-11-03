@@ -35,21 +35,6 @@ app.get('/api/v1/inventory', (request, response) => {
     .catch(error => response.status(500).json({ error }));
 });
 
-// do I need this endpoint?
-app.get('/api/v1/inventory/:id', (request, response) => {
-  const { id } = request.params;
-  database('inventory').where({ id }).select()
-    .then(item => {
-      if (!item.length) {
-        return response.status(404).json({ error: 'There is no item with this id.' });
-      } else {
-        return item;
-      }
-    })
-    .then(item => response.status(200).json(item))
-    .catch(error => response.status(500).json({ error }));
-});
-
 app.get('/api/v1/order_history', (request, response) => {
   database('order_history').select()
     .then(orders => {
@@ -75,6 +60,5 @@ app.post('/api/v1/order_history', (request, response) => {
     .then(order => response.status(201).json(order))
     .catch(error => response.status(500).json({ error }));
 });
-
 
 module.exports = app;
