@@ -129,9 +129,11 @@ main {
   margin-top: 20px;
 }
 
-.purchase-btn {
+.purchase-btn,
+.clear-cart-btn {
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
   border: none;
   outline: none;
   border-radius: 5px;
@@ -143,6 +145,11 @@ main {
 .purchase-btn:hover {
   background: rgb(56, 232, 158);
   cursor: pointer;
+}
+
+.clear-cart-btn:hover {
+  background: tomato;
+  cursor:pointer;
 }
 
 .inventory-container {
