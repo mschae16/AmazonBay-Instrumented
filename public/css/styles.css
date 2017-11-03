@@ -16,13 +16,15 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+/*** MAIN STYLES ***/
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 20vh;
+  height: 100px;
   padding: 0 20px;
-  background: navy;
+  background: #00bbd2;
   color: #f8f8f8;
 }
 
@@ -45,22 +47,23 @@ main {
   position: relative;
   display: flex;
   min-height: 80vh;
-  background: #ccc;
+  background: #f1f1f1;
 }
 
 .order-history-container,
 .shopping-cart-container {
   position: absolute;
   height: 100%;
-  width: 320px;
+  width: 360px;
   padding: 20px;
-  background: tomato;
+  background: #04a1b4;
+  color: #fff;
   transition: 1s;
 }
 
 .order-history-container {
   top: 0px;
-  left: -320px;
+  left: -360px;
 }
 
 .order-history-container > h2,
@@ -71,7 +74,7 @@ main {
 
 .shopping-cart-container {
   top: 0px;
-  right: -320px;
+  right: -360px;
 }
 
 .open-cart {
@@ -80,8 +83,16 @@ main {
   animation-duration: 1s;
 }
 
+.order-card {
+  margin: 15px 0;
+}
+
+.order-card > * {
+  margin-bottom: 3px;
+}
+
 @keyframes open-cart {
-  0% { right: -320px; }
+  0% { right: -360px; }
   100% { right: 0px; }
 }
 
@@ -92,8 +103,30 @@ main {
 }
 
 @keyframes open-orders {
-  0% { left: -320px; }
+  0% { left: -360px; }
   100% { left: 0px; }
+}
+
+.recent-orders-list,
+.saved-items {
+  list-style: none;
+  margin-bottom: 5px;
+}
+
+.shopping-cart-container > h4 {
+  margin-bottom: 10px;
+}
+
+.saved-item-card {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.cart-total {
+  margin-top: 20px;
 }
 
 .purchase-btn {
@@ -102,11 +135,14 @@ main {
   border: none;
   outline: none;
   border-radius: 5px;
-  background: chartreuse;
+  background: #026c78;
+  color: #fff;
+  transition: 200ms;
 }
 
 .purchase-btn:hover {
-  background: cyan;
+  background: rgb(56, 232, 158);
+  cursor: pointer;
 }
 
 .inventory-container {
@@ -130,12 +166,13 @@ main {
   align-items: center;
   background: #666;
   color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.22);
 }
 
 .item-name-container {
   width: 100%;
   height: 70px;
-  background: navy;
+  background: #00bbd2;
   padding: 12px;
 }
 
@@ -168,9 +205,17 @@ main {
   padding: 8px;
   border: none;
   outline: none;
-  background: chartreuse;
+  background: rgb(56, 232, 158);
+  color: #fff;
+  transition: 200ms;
 }
 
 .add-item-btn:hover {
-  background: cyan;
+  background: rgb(28, 194, 124);
+  cursor: pointer;
 }
+
+
+/*** MEDIA QUERIES ***/
+
+@media screen and (max-width: )

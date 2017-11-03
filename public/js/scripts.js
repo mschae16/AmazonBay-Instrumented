@@ -55,7 +55,7 @@ const appendCartItem = (item) => {
         <p class='saved-item-name'>${item.item}</p>
       </div>
       <div class='saved-item-price-container'>
-        <p class='saved-item-price'>Price: ${item.price}</p>
+        <p class='saved-item-price'>Price: <span class='price'>$${item.price}</span></p>
       </div>
     </li>`
   );
