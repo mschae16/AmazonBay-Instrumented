@@ -24,13 +24,6 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
 
-// monitoring.on('initialized', (env) => {
-//   env = monitoring.getEnvironment();
-//   for (var entry in env) {
-//       console.log(entry + ':' + env[entry]);
-//   };
-// });
-
 monitoring.on('cpu', (cpu) => {
   const postData = `cpu_percentage,host=AmazonBay process=${cpu.process},system=${cpu.system} ${cpu.time}`;
 
