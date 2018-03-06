@@ -1,7 +1,11 @@
+const appmetrics = require('appmetrics');
+const monitoring = appmetrics.monitor();
+
 const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const http = require('http');
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
@@ -19,6 +23,47 @@ app.locals.title = 'AmazonBay';
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
+
+// monitoring.on('initialized', (env) => {
+//   env = monitoring.getEnvironment();
+//   for (var entry in env) {
+//       console.log(entry + ':' + env[entry]);
+//   };
+// });
+
+monitoring.on('cpu', (cpu) => {
+  const postData = `cpu_percentage,host=AmazonBay process=${cpu.process},system=${cpu.system} ${cpu.time}`;
+
+  const options = {
+    port: 8186,
+    path: '/write?precision=ms',
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  };
+
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+
+  req.write(postData);
+  req.end();
+});
+
+// monitoring.on('http', (request) => {
+//   console.log({ request });
+// });
 
 // ENDPOINTs
 
