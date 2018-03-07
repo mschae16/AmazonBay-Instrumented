@@ -151,7 +151,7 @@ monitoring.on('http', (request) => {
 });
 
 monitoring.on('postgres', (postgres) => {
-  const postData = `Postgres_queries,host=AmazonBay,query=${postgres.query} duration=${postgres.duration} ${postgres.time}`;
+  const postData = `Postgres_queries,host=AmazonBay duration=${postgres.duration} ${postgres.time}`;
 
   const req = http.request(options, (res) => {
     console.log(`STATUS: ${res.statusCode}`);
