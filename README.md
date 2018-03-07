@@ -4,7 +4,7 @@ This project is spin-off from AmazonBay, a simple e-commerce application built i
 
 In this version, the application has been instrumented and is collecting metrics using [IBM's Node Metrics Library](https://github.com/RuntimeTools/appmetrics). It's then sending them to be stored within [InfluxDB](https://docs.influxdata.com/influxdb/v1.5/introduction/installation/) via [Telegraf](https://docs.influxdata.com/telegraf/v1.5/introduction/installation/), an open source data collecting agent.
 
-Further detail is outlined in this blog post: [Instrumenting your Node/Express Application]](https://www.influxdata.com/blog/instrumenting-your-node-express-application/)
+Further detail is outlined in this blog post: [Instrumenting your Node/Express Application](https://www.influxdata.com/blog/instrumenting-your-node-express-application/)
 
 ## To Use
 
