@@ -1,6 +1,10 @@
 # AmazonBay-Instrumented
 
-This project is a simple e-commerce application built in 8 hours with frontend user interface (HTML, CSS, jQuery) and the backend built out with Node/Express, PostgreSQL, and Knex. Users have the ability to view order history, add items to the shopping cart, and checkout or "purchase" the order.  The order will then appear in the Order History menu.
+This project is spin-off from AmazonBay, a simple e-commerce application built in 8 hours with frontend user interface (HTML, CSS, jQuery) and the backend built out with Node/Express, PostgreSQL, and Knex.
+
+In this version, the application has been instrumented and is collecting metrics using [IBM's Node Metrics Library](https://github.com/RuntimeTools/appmetrics). It's then sending them to be stored within [InfluxDB](https://docs.influxdata.com/influxdb/v1.5/introduction/installation/) via [Telegraf](https://docs.influxdata.com/telegraf/v1.5/introduction/installation/), an open source data collecting agent.
+
+Further detail is outlined in this blog post: [Instrumenting your Node/Express Application]](https://www.influxdata.com/blog/instrumenting-your-node-express-application/)
 
 ## To Use
 
