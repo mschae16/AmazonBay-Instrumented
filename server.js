@@ -24,15 +24,24 @@ app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
 
+// INSTRUMENTATION
+
+const options = {
+  port: 8186,
+  path: '/write?precision=ms',
+  method: 'POST',
+  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+};
+
+// monitoring.on('initialized', function (env) {
+//   env = monitoring.getEnvironment();
+//   for (var entry in env) {
+//       console.log(entry + ':' + env[entry]);
+//   };
+// });
+
 monitoring.on('cpu', (cpu) => {
   const postData = `cpu_percentage,host=AmazonBay process=${cpu.process},system=${cpu.system} ${cpu.time}`;
-
-  const options = {
-    port: 8186,
-    path: '/write?precision=ms',
-    method: 'POST',
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-  };
 
   const req = http.request(options, (res) => {
     console.log(`STATUS: ${res.statusCode}`);
@@ -49,16 +58,121 @@ monitoring.on('cpu', (cpu) => {
   req.on('error', (e) => {
     console.error(`problem with request: ${e.message}`);
   });
-
   req.write(postData);
   req.end();
 });
 
-// monitoring.on('http', (request) => {
-//   console.log({ request });
-// });
+monitoring.on('eventloop', (eventLoop) => {
+  const postData = `event_loop_latency,host=AmazonBay min=${eventLoop.latency.min},max=${eventLoop.latency.max},avg=${eventLoop.latency.avg} ${eventLoop.time}`;
 
-// ENDPOINTs
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  req.write(postData);
+  req.end();
+});
+
+monitoring.on('gc', (gc) => {
+  const postData = `gc,host=AmazonBay,type=${gc.type} size=${gc.size},used=${gc.used},duration=${gc.duration} ${gc.time}`;
+
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  req.write(postData);
+  req.end();
+});
+
+monitoring.on('memory', (memory) => {
+  const postData = `memory,host=AmazonBay physical_total=${memory.physical_total},physical_used=${memory.physical_used},physical_free=${memory.physical_free},virtual=${memory.virtual},private=${memory.private},physical=${memory.physical} ${memory.time}`;
+
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  req.write(postData);
+  req.end();
+});
+
+monitoring.on('http', (request) => {
+  const postData = `HTTP_requests,host=AmazonBay,method=${request.method},url=${request.url} duration=${request.duration}  ${request.time}`;
+
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  req.write(postData);
+  req.end();
+});
+
+monitoring.on('postgres', (postgres) => {
+  const postData = `Postgres_queries,host=AmazonBay,query=${postgres.query} duration=${postgres.duration} ${postgres.time}`;
+
+  const req = http.request(options, (res) => {
+    console.log(`STATUS: ${res.statusCode}`);
+    console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
+    res.setEncoding('utf8');
+    res.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`);
+    });
+    res.on('end', () => {
+      console.log('No more data in response.');
+    });
+  });
+
+  req.on('error', (e) => {
+    console.error(`problem with request: ${e.message}`);
+  });
+  req.write(postData);
+  req.end();
+});
+
+// ENDPOINTS
 
 app.get('/api/v1/inventory', (request, response) => {
   database('inventory').select()
