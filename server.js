@@ -33,13 +33,6 @@ const options = {
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 };
 
-// monitoring.on('initialized', function (env) {
-//   env = monitoring.getEnvironment();
-//   for (var entry in env) {
-//       console.log(entry + ':' + env[entry]);
-//   };
-// });
-
 monitoring.on('cpu', (cpu) => {
   const postData = `cpu_percentage,host=AmazonBay process=${cpu.process},system=${cpu.system} ${cpu.time}`;
 
