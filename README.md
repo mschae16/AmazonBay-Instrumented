@@ -12,7 +12,7 @@ Clone down this repo
 
 `npm install`
 
-You will need to manually create the databases: amazonbay and amazonbay_test
+This repo uses Postgres, which you will need to install and then manually create the databases: amazonbay and amazonbay_test
 
 Run `psql`
 
